@@ -2,37 +2,37 @@
 
 #include <fmt/printf.h>
 
-void BlockI::draw(sf::RenderTarget &target, sf::RenderStates states) const
+void BlockShape<BlockType::I>::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
 	fmt::print("Draw I\n");
 }
 
-void BlockO::draw(sf::RenderTarget &target, sf::RenderStates states) const
+void BlockShape<BlockType::O>::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
 	fmt::print("Draw O\n");
 }
 
-void BlockT::draw(sf::RenderTarget &target, sf::RenderStates states) const
+void BlockShape<BlockType::T>::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
 	fmt::print("Draw T\n");
 }
 
-void BlockS::draw(sf::RenderTarget &target, sf::RenderStates states) const
+void BlockShape<BlockType::S>::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
 	fmt::print("Draw S\n");
 }
 
-void BlockZ::draw(sf::RenderTarget &target, sf::RenderStates states) const
+void BlockShape<BlockType::Z>::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
 	fmt::print("Draw Z\n");
 }
 
-void BlockJ::draw(sf::RenderTarget &target, sf::RenderStates states) const
+void BlockShape<BlockType::J>::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
 	fmt::print("Draw J\n");
 }
 
-void BlockL::draw(sf::RenderTarget &target, sf::RenderStates states) const
+void BlockShape<BlockType::L>::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
 	fmt::print("Draw L\n");
 }
