@@ -7,6 +7,13 @@ constexpr size_t const BLOCK_COUNT = 2;
 
 class Block : public sf::Drawable
 {
+	public:
+	Block();
+	void rotate();
+
+	protected:
+	int m_rotation;
+
 	private:
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override = 0;
 };
@@ -19,6 +26,10 @@ enum class BlockType
 template<BlockType block_type>
 class BlockShape : public Block
 {
+	public:
+	BlockShape();
+
+	private:
 	virtual void draw(sf::RenderTarget & target, sf::RenderStates states) const override = 0;
 };
 

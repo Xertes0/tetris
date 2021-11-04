@@ -2,9 +2,24 @@
 
 #include <fmt/printf.h>
 
+template<BlockType block_type>
+BlockShape<block_type>::BlockShape()
+//	: m_rotation{0}
+{
+	m_rotation = 0;
+}
+
+Block::Block() : m_rotation{0} {}
+
+void Block::rotate()
+{
+	if(++m_rotation == 4)
+		m_rotation = 0;
+}
+
 void BlockShape<BlockType::I>::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-	fmt::print("Draw I\n");
+
 }
 
 void BlockShape<BlockType::O>::draw(sf::RenderTarget &target, sf::RenderStates states) const
