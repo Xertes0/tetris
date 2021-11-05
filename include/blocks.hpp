@@ -1,6 +1,8 @@
 #ifndef BLOCKS_HPP
 #define BLOCKS_HPP
 
+#include <array>
+
 #include <SFML/Graphics.hpp>
 
 constexpr size_t const BLOCK_COUNT = 2;
@@ -13,6 +15,8 @@ class Block : public sf::Drawable
 
 	protected:
 	int m_rotation;
+	sf::Vector2f m_position;
+ 	std::array<sf::RectangleShape, 4> m_blocks; // TODO - optimalize
 
 	private:
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override = 0;
@@ -36,6 +40,9 @@ class BlockShape : public Block
 template<>
 class BlockShape<BlockType::I> : public Block
 {
+	public:
+	BlockShape();
+	private:
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 };
 

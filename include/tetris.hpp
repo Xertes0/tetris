@@ -1,6 +1,8 @@
 #ifndef TETRIS_HPP
 #define TETRIS_HPP
 
+#include <memory>
+#include <optional>
 #include <vector>
 
 #include <SFML/Graphics.hpp>
@@ -16,7 +18,8 @@ class Tetris : public sf::Drawable
 	BlockGenerator m_block_gen;
 	unsigned int m_timer;
 	unsigned int m_timer_end;
-	std::vector<std::unique_ptr<Block>> m_blocks;
+	bool m_is_falling;
+	std::optional<std::unique_ptr<Block>> m_block;
 
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 

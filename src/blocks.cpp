@@ -9,7 +9,10 @@ BlockShape<block_type>::BlockShape()
 	m_rotation = 0;
 }
 
-Block::Block() : m_rotation{0} {}
+Block::Block() :
+	m_rotation{0},
+	m_position{0.f,0.f}
+{}
 
 void Block::rotate()
 {
@@ -17,9 +20,12 @@ void Block::rotate()
 		m_rotation = 0;
 }
 
+BlockShape<BlockType::I>::BlockShape()
+{
+}
+
 void BlockShape<BlockType::I>::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-
 }
 
 void BlockShape<BlockType::O>::draw(sf::RenderTarget &target, sf::RenderStates states) const
