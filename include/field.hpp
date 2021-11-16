@@ -3,6 +3,7 @@
 
 #include <array>
 #include <optional>
+#include <memory>
 
 #include <SFML/Graphics.hpp>
 
@@ -19,7 +20,7 @@ constexpr float OFFSET_Y = 50.f;
 
 struct StaticBlock
 {
-	sf::Color color;
+	std::shared_ptr<sf::Texture> texture;
 };
 
 class TetrisField : public sf::Drawable

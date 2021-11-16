@@ -5,7 +5,7 @@
 #include <random>
 #include <algorithm>
 
-#include "blocks.hpp"
+#include "block.hpp"
 
 class BlockGenerator
 {

@@ -1,6 +1,9 @@
 #include "tetris.hpp"
 
+#include <SFML/Graphics/Rect.hpp>
 #include <fmt/printf.h>
+
+#include "block_textures.hpp"
 
 Tetris::Tetris() :
 	m_block{},
@@ -8,7 +11,50 @@ Tetris::Tetris() :
 	m_block_gen{},
 	m_timer{0},
 	m_timer_end{16},
-	m_is_falling(false) {}
+	m_is_falling(false)
+{
+	load_static_textures();
+}
+
+void Tetris::load_static_textures()
+{
+	
+	auto i_texture = std::make_shared<sf::Texture>();
+	auto o_texture = std::make_shared<sf::Texture>();
+	auto t_texture = std::make_shared<sf::Texture>();
+	auto s_texture = std::make_shared<sf::Texture>();
+	auto z_texture = std::make_shared<sf::Texture>();
+	auto j_texture = std::make_shared<sf::Texture>();
+	auto l_texture = std::make_shared<sf::Texture>();
+
+	i_texture->loadFromFile(BlockTexture<BlockType::I>::path,
+		sf::IntRect{0,0,
+			static_cast<int>(TEXTURE_SIZE),
+			static_cast<int>(TEXTURE_SIZE)
+	});
+	o_texture->loadFromFile(BlockTexture<BlockType::O>::path,
+		sf::IntRect{0,0,
+			static_cast<int>(TEXTURE_SIZE),
+			static_cast<int>(TEXTURE_SIZE)
+	});
+	t_texture->loadFromFile(BlockTexture<BlockType::T>::path,
+		sf::IntRect{0,static_cast<int>(TEXTURE_SIZE),
+			static_cast<int>(TEXTURE_SIZE),
+			static_cast<int>(TEXTURE_SIZE)
+	});
+	s_texture->loadFromFile(BlockTexture<BlockType::S>::path);
+	z_texture->loadFromFile(BlockTexture<BlockType::Z>::path);
+	j_texture->loadFromFile(BlockTexture<BlockType::J>::path);
+	l_texture->loadFromFile(BlockTexture<BlockType::L>::path);
+
+	m_stextures.push_back(i_texture);
+	m_stextures.push_back(o_texture);
+	m_stextures.push_back(t_texture);
+	m_stextures.push_back(s_texture);
+	m_stextures.push_back(z_texture);
+	m_stextures.push_back(j_texture);
+	m_stextures.push_back(l_texture);
+}
 
 void Tetris::update()
 {
@@ -29,7 +75,10 @@ void Tetris::update()
 	if(m_block.has_value()) {
 		if(m_block.value()->has_fallen) {
 			for(auto const [x,y] : m_block.value()->get_block_array()) {
-				m_field.static_blocks[x][y] = StaticBlock{.color{sf::Color::Blue}};
+				m_field.static_blocks[x][y] =
+					StaticBlock{.texture =
+						m_stextures[m_block.value()->texture_index]};
+
 				fmt::print("sblock x: {}, y: {}\n", x,y);
 			}
 			m_is_falling = false;

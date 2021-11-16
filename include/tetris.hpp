@@ -8,7 +8,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "field.hpp"
-#include "blocks.hpp"
+#include "block.hpp"
 #include "block_generator.hpp"
 
 class Tetris : public sf::Drawable
@@ -17,10 +17,12 @@ private:
 	TetrisField m_field;
 	BlockGenerator m_block_gen;
 	unsigned int m_timer;
-	unsigned int m_timer_end;
+	float m_timer_end;
 	bool m_is_falling;
 	std::optional<std::unique_ptr<Block>> m_block;
+	std::vector<std::shared_ptr<sf::Texture>> m_stextures;
 
+	void load_static_textures();
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 public:

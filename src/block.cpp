@@ -1,11 +1,14 @@
-#include "blocks.hpp"
+#include "block.hpp"
 
 #include <fmt/printf.h>
+
+#include "block_textures.hpp"
 
 Block::Block() :
 	m_rotation{0},
 	m_position{OFFSET_X, OFFSET_Y}
-{}
+{
+}
 
 void Block::rotate()
 {

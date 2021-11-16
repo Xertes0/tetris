@@ -4,6 +4,7 @@
 #include <array>
 
 #include "field.hpp"
+#include "block_types.hpp"
 
 constexpr size_t const BLOCK_COUNT = 2;
 
@@ -23,8 +24,16 @@ public:
 
 	void rotate();
 	virtual void update(TetrisField const &field, bool tick) = 0;
-	virtual std::array<std::tuple<size_t,size_t>, 4>
+	virtual std::array<std::tuple<int,int>, 4>
 	get_block_array() const = 0;
+	size_t texture_index;
+
+protected:
+	int m_rotation;
+	sf::Vector2f m_position;
+
+	sf::Texture m_texture;
+	sf::Sprite  m_sprite;
 	
 	template<typename CheckFallen, typename CheckMovement>
 	void base_update(
@@ -33,11 +42,6 @@ public:
 		CheckFallen &check_fallen,
 		CheckMovement &can_move
 	);
-
-protected:
-	int m_rotation;
-	sf::Vector2f m_position;
- 	//std::array<sf::RectangleShape, 4> m_blocks; // TODO - optimalize
 
 private:
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override = 0;

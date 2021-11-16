@@ -4,7 +4,6 @@
 #include <SFML/Graphics.hpp>
 
 #include "tetris.hpp"
-#include "game_state.hpp"
 
 constexpr unsigned int const WIDTH  = 600; 
 constexpr unsigned int const HEIGHT = 800;
@@ -25,7 +24,6 @@ main() -> int
 	window.setFramerateLimit(16);
 
 	Tetris tetris;
-	GameState game_state{};
 	while(window.isOpen())
 	{
 		sf::Event event;

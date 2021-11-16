@@ -2,6 +2,8 @@
 
 #include <fmt/printf.h>
 
+#include "block_textures.hpp"
+
 TetrisField::TetrisField() :
 	static_blocks{}
 {
@@ -62,8 +64,8 @@ void TetrisField::remove_row(size_t const row)
 
 void TetrisField::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-	sf::RectangleShape placehodler{};
-	placehodler.setSize(sf::Vector2f{FIELD_SIZE,FIELD_SIZE});
+	sf::Sprite placehodler{};
+	placehodler.setScale(SCALE_FACTOR, SCALE_FACTOR);
 
 	for(size_t x=0; auto const &block_x : static_blocks) {
 		for(size_t y=0; auto const &block : block_x) {
@@ -72,7 +74,7 @@ void TetrisField::draw(sf::RenderTarget &target, sf::RenderStates states) const
 					OFFSET_X+(FIELD_SIZE*x),
 					OFFSET_Y+(FIELD_SIZE*y)
 				});
-				placehodler.setFillColor(block->color);
+				placehodler.setTexture(*block->texture);
 				//fmt::print("Draw x: {}, y: {}\n", x, y);
 				target.draw(placehodler);
 			}
