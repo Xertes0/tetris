@@ -22,42 +22,24 @@ public:
 		m_sprite.setScale(SCALE_FACTOR, SCALE_FACTOR);
 		
 		if constexpr(block_type == BlockType::I) {
-			m_sprite.setOrigin(sf::Vector2f{0, m_sprite.getLocalBounds().height/2});
+			m_sprite.setOrigin(sf::Vector2f{
+				m_sprite.getLocalBounds().width/2,
+				0
+			});
 		} else if(block_type == BlockType::O) {
 			m_sprite.setOrigin(sf::Vector2f{
 				m_sprite.getLocalBounds().width/2,
 				m_sprite.getLocalBounds().height/2
 			});
 			m_position += sf::Vector2f{FIELD_SIZE, 0.f};
-		} else if(block_type == BlockType::T) {
-			m_sprite.setOrigin(sf::Vector2f{
-				m_sprite.getLocalBounds().width/2,
-				m_sprite.getLocalBounds().height/2 +
-					m_sprite.getLocalBounds().height/4
-			});
-			m_position += sf::Vector2f{FIELD_SIZE+FIELD_SIZE/2, FIELD_SIZE/2};
-		} else if(block_type == BlockType::S) {
-			m_sprite.setOrigin(sf::Vector2f{
-				m_sprite.getLocalBounds().width/2,
-				m_sprite.getLocalBounds().height/2 +
-					m_sprite.getLocalBounds().height/4
-			});
-			m_position += sf::Vector2f{FIELD_SIZE+FIELD_SIZE/2, FIELD_SIZE/2};
-		} else if(block_type == BlockType::Z) {
-			m_sprite.setOrigin(sf::Vector2f{
-				m_sprite.getLocalBounds().width/2,
-				m_sprite.getLocalBounds().height/2 +
-					m_sprite.getLocalBounds().height/4
-			});
-			m_position += sf::Vector2f{FIELD_SIZE+FIELD_SIZE/2, FIELD_SIZE/2};
-		} else if(block_type == BlockType::J) {
-			m_sprite.setOrigin(sf::Vector2f{
-				m_sprite.getLocalBounds().width/2,
-				m_sprite.getLocalBounds().height/2 +
-					m_sprite.getLocalBounds().height/4
-			});
-			m_position += sf::Vector2f{FIELD_SIZE+FIELD_SIZE/2, FIELD_SIZE/2};
-		} else if(block_type == BlockType::L) {
+		} else if(
+			block_type == BlockType::T ||
+			block_type == BlockType::S ||
+			block_type == BlockType::Z ||
+			block_type == BlockType::J ||
+			block_type == BlockType::L
+		)
+		{
 			m_sprite.setOrigin(sf::Vector2f{
 				m_sprite.getLocalBounds().width/2,
 				m_sprite.getLocalBounds().height/2 +

@@ -105,7 +105,7 @@ void Tetris::update()
 	}
 }
 
-void Tetris::draw(sf::RenderTarget &target, sf::RenderStates states) const
+void Tetris::draw(sf::RenderTarget &target, [[maybe_unused]] sf::RenderStates states) const
 {
 	if(m_block.has_value())
 		target.draw(**m_block);

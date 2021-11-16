@@ -13,6 +13,7 @@ BlockGenerator::BlockGenerator() :
 auto
 BlockGenerator::operator()() -> std::unique_ptr<Block>
 {
+	//return std::make_unique<BlockShape<BlockType::I>>();
 	switch(m_uid(m_mt))
 	{
 		case 0: return std::make_unique<BlockShape<BlockType::I>>();

@@ -108,29 +108,17 @@ struct BlockArrays<BlockType::I>
 {
 	static constexpr std::array value{
 		std::array {
-			std::tuple(0,-2),
-			std::tuple(0,-1),
-			std::tuple(0, 0),
-			std::tuple(0, 1)
-		},
-		std::array {
 			std::tuple(-2,0),
 			std::tuple(-1,0),
 			std::tuple(0, 0),
 			std::tuple(1, 0)
 		},
 		std::array {
-			std::tuple(0,-2),
-			std::tuple(0,-1),
-			std::tuple(0, 0),
-			std::tuple(0, 1)
+			std::tuple(-1,-2),
+			std::tuple(-1,-1),
+			std::tuple(-1, 0),
+			std::tuple(-1, 1)
 		},
-		std::array {
-			std::tuple(-2,0),
-			std::tuple(-1,0),
-			std::tuple(0, 0),
-			std::tuple(1, 0)
-		}
 	};
 };
 
@@ -326,7 +314,7 @@ struct BlockGrundCheckOffset;
 template<>
 struct BlockGrundCheckOffset<BlockType::I>
 {
-	static constexpr std::array value {-2,-1,-2,-1};
+	static constexpr std::array value {-1,-2,-1,-2};
 };
 
 template<>
