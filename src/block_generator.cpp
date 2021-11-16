@@ -1,6 +1,8 @@
+#include "block_generator.hpp"
+
 #include <stdexcept>
 
-#include "block_generator.hpp"
+#include "block_shapes.hpp"
 
 BlockGenerator::BlockGenerator() :
 	m_mt{std::random_device{}()},
@@ -14,12 +16,12 @@ BlockGenerator::operator()() -> std::unique_ptr<Block>
 	switch(m_uid(m_mt))
 	{
 		case 0: return std::make_unique<BlockShape<BlockType::I>>();
-		case 1: return std::make_unique<BlockShape<BlockType::O>>();
-		case 2: return std::make_unique<BlockShape<BlockType::T>>();
-		case 3: return std::make_unique<BlockShape<BlockType::S>>();
-		case 4: return std::make_unique<BlockShape<BlockType::Z>>();
-		case 5: return std::make_unique<BlockShape<BlockType::J>>();
-		case 6: return std::make_unique<BlockShape<BlockType::L>>();
+		//case 1: return std::make_unique<BlockShape<BlockType::O>>();
+		//case 2: return std::make_unique<BlockShape<BlockType::T>>();
+		//case 3: return std::make_unique<BlockShape<BlockType::S>>();
+		//case 4: return std::make_unique<BlockShape<BlockType::Z>>();
+		//case 5: return std::make_unique<BlockShape<BlockType::J>>();
+		//case 6: return std::make_unique<BlockShape<BlockType::L>>();
 	}
 
 	throw new std::runtime_error{"BlockGenerator bad random value"};

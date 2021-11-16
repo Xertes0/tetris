@@ -1,10 +1,10 @@
-#include <SFML/Graphics/Drawable.hpp>
 #include <fmt/format.h>
 
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
 #include "tetris.hpp"
+#include "game_state.hpp"
 
 constexpr unsigned int const WIDTH  = 600; 
 constexpr unsigned int const HEIGHT = 800;
@@ -22,9 +22,10 @@ main() -> int
 
 	sf::RenderWindow window(sf::VideoMode(WIDTH,HEIGHT), "Tetris");
 	center_window(window);
-	window.setFramerateLimit(60);
+	window.setFramerateLimit(16);
 
 	Tetris tetris;
+	GameState game_state{};
 	while(window.isOpen())
 	{
 		sf::Event event;
@@ -34,7 +35,7 @@ main() -> int
 				window.close();
 		}
 
-		tetris.main_loop();
+		tetris.update();
 
 		window.clear(sf::Color::Black);
 

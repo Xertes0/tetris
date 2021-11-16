@@ -3,83 +3,44 @@
 
 #include <array>
 
-#include <SFML/Graphics.hpp>
+#include "field.hpp"
 
 constexpr size_t const BLOCK_COUNT = 2;
 
+enum class Move
+{
+	Left,
+	Right,
+	Rotate,
+};
+
 class Block : public sf::Drawable
 {
-	public:
+public:
 	Block();
-	void rotate();
 
-	protected:
+	bool has_fallen = false;
+
+	void rotate();
+	virtual void update(TetrisField const &field, bool tick) = 0;
+	virtual std::array<std::tuple<size_t,size_t>, 4>
+	get_block_array() const = 0;
+	
+	template<typename CheckFallen, typename CheckMovement>
+	void base_update(
+		TetrisField const &field,
+		bool tick,
+		CheckFallen &check_fallen,
+		CheckMovement &can_move
+	);
+
+protected:
 	int m_rotation;
 	sf::Vector2f m_position;
- 	std::array<sf::RectangleShape, 4> m_blocks; // TODO - optimalize
+ 	//std::array<sf::RectangleShape, 4> m_blocks; // TODO - optimalize
 
-	private:
+private:
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override = 0;
-};
-
-enum class BlockType
-{
-	I, O, T, S, Z, J, L
-};
-
-template<BlockType block_type>
-class BlockShape : public Block
-{
-	public:
-	BlockShape();
-
-	private:
-	virtual void draw(sf::RenderTarget & target, sf::RenderStates states) const override = 0;
-};
-
-template<>
-class BlockShape<BlockType::I> : public Block
-{
-	public:
-	BlockShape();
-	private:
-	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
-};
-
-template<>
-class BlockShape<BlockType::O> : public Block
-{
-	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
-};
-
-template<>
-class BlockShape<BlockType::T> : public Block
-{
-	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
-};
-
-template<>
-class BlockShape<BlockType::S> : public Block
-{
-	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
-};
-
-template<>
-class BlockShape<BlockType::Z> : public Block
-{
-	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
-};
-
-template<>
-class BlockShape<BlockType::J> : public Block
-{
-	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
-};
-
-template<>
-class BlockShape<BlockType::L> : public Block
-{
-	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 };
 
 #endif // BLOCKS_HPP

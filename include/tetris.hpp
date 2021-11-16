@@ -13,7 +13,7 @@
 
 class Tetris : public sf::Drawable
 {
-	private:
+private:
 	TetrisField m_field;
 	BlockGenerator m_block_gen;
 	unsigned int m_timer;
@@ -23,10 +23,10 @@ class Tetris : public sf::Drawable
 
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
-	public:
+public:
 	Tetris();
 
-	void main_loop();
+	void update();
 };
 
 #endif // TETRIS_HPP
