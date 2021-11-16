@@ -6,12 +6,12 @@
 #include "block_textures.hpp"
 
 Tetris::Tetris() :
-	m_block{},
 	m_field{},
 	m_block_gen{},
 	m_timer{0},
 	m_timer_end{16},
-	m_is_falling(false)
+	m_is_falling(false),
+	m_block{}
 {
 	load_static_textures();
 }
@@ -42,10 +42,26 @@ void Tetris::load_static_textures()
 			static_cast<int>(TEXTURE_SIZE),
 			static_cast<int>(TEXTURE_SIZE)
 	});
-	s_texture->loadFromFile(BlockTexture<BlockType::S>::path);
-	z_texture->loadFromFile(BlockTexture<BlockType::Z>::path);
-	j_texture->loadFromFile(BlockTexture<BlockType::J>::path);
-	l_texture->loadFromFile(BlockTexture<BlockType::L>::path);
+	s_texture->loadFromFile(BlockTexture<BlockType::S>::path,
+		sf::IntRect{0,static_cast<int>(TEXTURE_SIZE),
+			static_cast<int>(TEXTURE_SIZE),
+			static_cast<int>(TEXTURE_SIZE)
+	});
+	z_texture->loadFromFile(BlockTexture<BlockType::Z>::path, 
+		sf::IntRect{0,0,
+			static_cast<int>(TEXTURE_SIZE),
+			static_cast<int>(TEXTURE_SIZE)
+	});
+	j_texture->loadFromFile(BlockTexture<BlockType::J>::path,
+		sf::IntRect{0,0,
+			static_cast<int>(TEXTURE_SIZE),
+			static_cast<int>(TEXTURE_SIZE)
+	});
+	l_texture->loadFromFile(BlockTexture<BlockType::L>::path,
+		sf::IntRect{0,static_cast<int>(TEXTURE_SIZE),
+			static_cast<int>(TEXTURE_SIZE),
+			static_cast<int>(TEXTURE_SIZE)
+	});
 
 	m_stextures.push_back(i_texture);
 	m_stextures.push_back(o_texture);
@@ -60,7 +76,7 @@ void Tetris::update()
 {
 	if(m_timer++ >= m_timer_end) {
 		if(!m_is_falling) {
-			m_block = std::move(m_block_gen());
+			m_block = m_block_gen();
 			m_is_falling = true;
 		} else {
 			m_block.value()->update(m_field, true);
@@ -74,12 +90,12 @@ void Tetris::update()
 
 	if(m_block.has_value()) {
 		if(m_block.value()->has_fallen) {
-			for(auto const [x,y] : m_block.value()->get_block_array()) {
+			for(auto const &[x,y] : m_block.value()->get_block_array()) {
 				m_field.static_blocks[x][y] =
 					StaticBlock{.texture =
 						m_stextures[m_block.value()->texture_index]};
 
-				fmt::print("sblock x: {}, y: {}\n", x,y);
+				//fmt::print("sblock x: {}, y: {}\n", x,y);
 			}
 			m_is_falling = false;
 			m_block.reset();

@@ -1,7 +1,8 @@
 #ifndef BLOCK_TEXTURES_HPP
 #define BLOCK_TEXTURES_HPP
 
-#include "block_shapes.hpp"
+#include "block_types.hpp"
+#include "field.hpp"
 
 constexpr float TEXTURE_SIZE = 7.f;
 constexpr float SCALE_FACTOR = 
