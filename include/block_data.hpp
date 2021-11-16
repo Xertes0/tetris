@@ -1,7 +1,6 @@
 #include "block_types.hpp"
 
 #include <array>
-#include <tuple>
 
 template<BlockType block_type>
 struct BlockShapeIndex;

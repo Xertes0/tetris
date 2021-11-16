@@ -5,7 +5,8 @@
 
 #include "block_textures.hpp"
 
-TexturePtrArray get_stextures()
+auto
+get_stextures() -> TexturePtrArray
 {
 	TexturePtrArray stextures;
 	stextures[0] = std::make_shared<sf::Texture>();
@@ -54,7 +55,8 @@ TexturePtrArray get_stextures()
 	return stextures;
 };
 
-TexturePtrArray get_textures()
+auto
+get_textures() -> TexturePtrArray
 {
 	TexturePtrArray textures;
 	textures[0] = std::make_shared<sf::Texture>();
@@ -85,7 +87,8 @@ Tetris::Tetris() :
 	m_is_falling(false),
 	m_block{} {}
 
-void Tetris::update()
+void
+Tetris::update()
 {
 	if(m_timer++ >= m_timer_end) {
 		if(!m_is_falling) {
@@ -118,7 +121,8 @@ void Tetris::update()
 	}
 }
 
-void Tetris::draw(sf::RenderTarget &target, [[maybe_unused]] sf::RenderStates states) const
+void
+Tetris::draw(sf::RenderTarget &target, [[maybe_unused]] sf::RenderStates states) const
 {
 	if(m_block.has_value())
 		target.draw(**m_block);

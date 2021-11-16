@@ -3,8 +3,12 @@
 
 #include <array>
 
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <SFML/Window/Keyboard.hpp>
+
 #include "field.hpp"
-#include "block_types.hpp"
 
 constexpr size_t const BLOCK_COUNT = 7;
 
@@ -20,26 +24,31 @@ class Block : public sf::Drawable
 public:
 	Block();
 
-	bool has_fallen = false;
-
-	void rotate();
-	virtual void update(TetrisField const &field, bool tick) = 0;
-	virtual std::array<std::tuple<int,int>, 4>
-	get_block_array() const = 0;
+	bool   has_fallen {false};
 	size_t texture_index;
+
+	void
+	rotate();
+
+	virtual void
+	update(Field const &field, bool tick) = 0;
+
+	virtual auto
+	get_block_array() const -> std::array<std::tuple<int,int>, 4> = 0;
 
 protected:
 	int m_rotation;
-	sf::Vector2f m_position;
 
-	sf::Texture m_texture;
-	sf::Sprite  m_sprite;
+	sf::Vector2f m_position;
+	sf::Texture  m_texture;
+	sf::Sprite   m_sprite;
 	
 	template<typename CheckFallen, typename CheckMovement>
-	void base_update(
-		bool tick,
-		CheckFallen &check_fallen,
-		CheckMovement &can_move
+	void
+	base_update(
+		bool const tick,
+		CheckFallen   const & check_fallen,
+		CheckMovement const & can_move
 	) {
 		bool down_pressed = false;
 		if( sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
@@ -69,7 +78,8 @@ protected:
 	};
 
 private:
-	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override = 0;
+	virtual void
+	draw(sf::RenderTarget &target, sf::RenderStates states) const override = 0;
 };
 
 #endif // BLOCKS_HPP

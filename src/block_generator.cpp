@@ -8,8 +8,7 @@
 BlockGenerator::BlockGenerator(TexturePtrArray const textures) :
 	m_mt{std::random_device{}()},
 	m_uid{0,BLOCK_COUNT-1},
-	m_textures{textures}
-{}
+	m_textures{textures} {}
 
 auto
 BlockGenerator::operator()() -> std::unique_ptr<Block>

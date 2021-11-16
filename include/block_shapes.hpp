@@ -3,7 +3,11 @@
 
 #include "block.hpp"
 
+#include <array>
 #include <memory>
+
+#include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/RenderStates.hpp>
 
 #include "block_types.hpp"
 #include "block_textures.hpp"
@@ -17,7 +21,8 @@ template<BlockType block_type>
 class BlockShape : public Block
 {
 public:
-	BlockShape(TexturePtrArray const & textures) {
+	BlockShape(TexturePtrArray const & textures)
+	{
 		texture_index = BlockShapeIndex<block_type>::value;
 		m_rotation = 0;
 
@@ -57,10 +62,15 @@ public:
 	};
 
 private:
-	virtual void draw(sf::RenderTarget & target, [[maybe_unused]] sf::RenderStates states) const override {
+	virtual void
+	draw(sf::RenderTarget & target, [[maybe_unused]] sf::RenderStates states) const override
+	{
 		target.draw(m_sprite);
-	} ;
-	virtual void update(TetrisField const & field, bool tick) override {
+	};
+
+	virtual void
+	update(Field const & field, bool tick) override
+	{
 		auto const check_fallen = [&]() -> bool {
 			// Block check
 			auto const block_array = get_block_array();
@@ -74,7 +84,7 @@ private:
 
 			// Ground check
 			auto const gc_offset = BlockGrundCheckOffset<block_type>::value[m_rotation];
-			if(m_position.y >= (FIELD_SIZE*(FIELD_Y_COUNT+gc_offset))+OFFSET_Y) {
+			if(m_position.y >= (FIELD_SIZE*(FIELD_Y_COUNT+gc_offset))+FIELD_OFFSET_Y) {
 				return true;
 			}
 
@@ -121,12 +131,14 @@ private:
 		m_sprite.setRotation(90.f * m_rotation);
 		m_sprite.setPosition(m_position);
 	};
-	virtual std::array<std::tuple<int,int>, 4>
-	get_block_array() const override {
+
+	virtual auto
+	get_block_array() const -> std::array<std::tuple<int,int>, 4> override
+	{
 		std::array to_return = BlockArrays<block_type>::value[m_rotation];
 		sf::Vector2f const root{
-			(m_position.x-OFFSET_X)/FIELD_SIZE + BlockArrayRootOffsets<block_type>::x,
-			(m_position.y-OFFSET_Y)/FIELD_SIZE + BlockArrayRootOffsets<block_type>::y
+			(m_position.x-FIELD_OFFSET_X)/FIELD_SIZE + BlockArrayRootOffsets<block_type>::x,
+			(m_position.y-FIELD_OFFSET_Y)/FIELD_SIZE + BlockArrayRootOffsets<block_type>::y
 		};
 
 		//fmt::print("root x: {}\n", root.x);

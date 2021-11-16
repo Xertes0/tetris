@@ -1,7 +1,6 @@
 #ifndef BLOCK_GENERATOR_HPP
 #define BLOCK_GENERATOR_HPP
 
-#include <algorithm>
 #include <array>
 #include <memory>
 #include <random>

@@ -8,7 +8,8 @@
 constexpr unsigned int const WIDTH  = 600; 
 constexpr unsigned int const HEIGHT = 800;
 
-void center_window(sf::Window &window)
+void
+center_window(sf::Window & window)
 {
 	auto const desktop_mode = sf::VideoMode::getDesktopMode();
 	window.setPosition(sf::Vector2i(desktop_mode.width/2 - WIDTH/2, desktop_mode.height/2 - HEIGHT/2));
