@@ -5,72 +5,85 @@
 
 #include "block_textures.hpp"
 
+TexturePtrArray get_stextures()
+{
+	TexturePtrArray stextures;
+	stextures[0] = std::make_shared<sf::Texture>();
+	stextures[0]->loadFromFile(BlockTexture<BlockType::I>::path,
+		sf::IntRect{0,0,
+			static_cast<int>(TEXTURE_SIZE),
+			static_cast<int>(TEXTURE_SIZE)
+	});
+	stextures[1] = std::make_shared<sf::Texture>();
+	stextures[1]->loadFromFile(BlockTexture<BlockType::O>::path,
+		sf::IntRect{0,0,
+			static_cast<int>(TEXTURE_SIZE),
+			static_cast<int>(TEXTURE_SIZE)
+	});
+	stextures[2] = std::make_shared<sf::Texture>();
+	stextures[2]->loadFromFile(BlockTexture<BlockType::T>::path,
+		sf::IntRect{0,static_cast<int>(TEXTURE_SIZE),
+			static_cast<int>(TEXTURE_SIZE),
+			static_cast<int>(TEXTURE_SIZE)
+	});
+	stextures[3] = std::make_shared<sf::Texture>();
+	stextures[3]->loadFromFile(BlockTexture<BlockType::S>::path,
+		sf::IntRect{0,static_cast<int>(TEXTURE_SIZE),
+			static_cast<int>(TEXTURE_SIZE),
+			static_cast<int>(TEXTURE_SIZE)
+	});
+	stextures[4] = std::make_shared<sf::Texture>();
+	stextures[4]->loadFromFile(BlockTexture<BlockType::Z>::path, 
+		sf::IntRect{0,0,
+			static_cast<int>(TEXTURE_SIZE),
+			static_cast<int>(TEXTURE_SIZE)
+	});
+	stextures[5] = std::make_shared<sf::Texture>();
+	stextures[5]->loadFromFile(BlockTexture<BlockType::J>::path,
+		sf::IntRect{0,0,
+			static_cast<int>(TEXTURE_SIZE),
+			static_cast<int>(TEXTURE_SIZE)
+	});
+	stextures[6] = std::make_shared<sf::Texture>();
+	stextures[6]->loadFromFile(BlockTexture<BlockType::L>::path,
+		sf::IntRect{0,static_cast<int>(TEXTURE_SIZE),
+			static_cast<int>(TEXTURE_SIZE),
+			static_cast<int>(TEXTURE_SIZE)
+	});
+
+	return stextures;
+};
+
+TexturePtrArray get_textures()
+{
+	TexturePtrArray textures;
+	textures[0] = std::make_shared<sf::Texture>();
+	textures[0]->loadFromFile(BlockTexture<BlockType::I>::path);
+	textures[1] = std::make_shared<sf::Texture>();
+	textures[1]->loadFromFile(BlockTexture<BlockType::O>::path);
+	textures[2] = std::make_shared<sf::Texture>();
+	textures[2]->loadFromFile(BlockTexture<BlockType::T>::path);
+	textures[3] = std::make_shared<sf::Texture>();
+	textures[3]->loadFromFile(BlockTexture<BlockType::S>::path);
+	textures[4] = std::make_shared<sf::Texture>();
+	textures[4]->loadFromFile(BlockTexture<BlockType::Z>::path);
+	textures[5] = std::make_shared<sf::Texture>();
+	textures[5]->loadFromFile(BlockTexture<BlockType::J>::path);
+	textures[6] = std::make_shared<sf::Texture>();
+	textures[6]->loadFromFile(BlockTexture<BlockType::L>::path);
+
+	return textures;
+};
+
 Tetris::Tetris() :
+	m_stextures{get_stextures()},
+	m_textures{get_textures()},
 	m_field{},
-	m_block_gen{},
+	m_block_gen{m_textures},
 	m_timer{0},
 	m_timer_end{16},
 	m_is_falling(false),
-	m_block{}
-{
-	load_static_textures();
-}
-
-void Tetris::load_static_textures()
-{
-	
-	auto i_texture = std::make_shared<sf::Texture>();
-	auto o_texture = std::make_shared<sf::Texture>();
-	auto t_texture = std::make_shared<sf::Texture>();
-	auto s_texture = std::make_shared<sf::Texture>();
-	auto z_texture = std::make_shared<sf::Texture>();
-	auto j_texture = std::make_shared<sf::Texture>();
-	auto l_texture = std::make_shared<sf::Texture>();
-
-	i_texture->loadFromFile(BlockTexture<BlockType::I>::path,
-		sf::IntRect{0,0,
-			static_cast<int>(TEXTURE_SIZE),
-			static_cast<int>(TEXTURE_SIZE)
-	});
-	o_texture->loadFromFile(BlockTexture<BlockType::O>::path,
-		sf::IntRect{0,0,
-			static_cast<int>(TEXTURE_SIZE),
-			static_cast<int>(TEXTURE_SIZE)
-	});
-	t_texture->loadFromFile(BlockTexture<BlockType::T>::path,
-		sf::IntRect{0,static_cast<int>(TEXTURE_SIZE),
-			static_cast<int>(TEXTURE_SIZE),
-			static_cast<int>(TEXTURE_SIZE)
-	});
-	s_texture->loadFromFile(BlockTexture<BlockType::S>::path,
-		sf::IntRect{0,static_cast<int>(TEXTURE_SIZE),
-			static_cast<int>(TEXTURE_SIZE),
-			static_cast<int>(TEXTURE_SIZE)
-	});
-	z_texture->loadFromFile(BlockTexture<BlockType::Z>::path, 
-		sf::IntRect{0,0,
-			static_cast<int>(TEXTURE_SIZE),
-			static_cast<int>(TEXTURE_SIZE)
-	});
-	j_texture->loadFromFile(BlockTexture<BlockType::J>::path,
-		sf::IntRect{0,0,
-			static_cast<int>(TEXTURE_SIZE),
-			static_cast<int>(TEXTURE_SIZE)
-	});
-	l_texture->loadFromFile(BlockTexture<BlockType::L>::path,
-		sf::IntRect{0,static_cast<int>(TEXTURE_SIZE),
-			static_cast<int>(TEXTURE_SIZE),
-			static_cast<int>(TEXTURE_SIZE)
-	});
-
-	m_stextures.push_back(i_texture);
-	m_stextures.push_back(o_texture);
-	m_stextures.push_back(t_texture);
-	m_stextures.push_back(s_texture);
-	m_stextures.push_back(z_texture);
-	m_stextures.push_back(j_texture);
-	m_stextures.push_back(l_texture);
-}
+	m_block{} {}
 
 void Tetris::update()
 {

@@ -3,22 +3,27 @@
 
 #include "block.hpp"
 
+#include <memory>
+
 #include "block_types.hpp"
 #include "block_textures.hpp"
 #include "block_data.hpp"
 
 #include <fmt/printf.h>
 
+using TexturePtrArray = std::array<std::shared_ptr<sf::Texture>, BLOCK_COUNT>;
+
 template<BlockType block_type>
 class BlockShape : public Block
 {
 public:
-	BlockShape() {
+	BlockShape(TexturePtrArray const & textures) {
 		texture_index = BlockShapeIndex<block_type>::value;
 		m_rotation = 0;
 
-		m_texture.loadFromFile(BlockTexture<block_type>::path);
-		m_sprite.setTexture(m_texture);
+		//m_texture.loadFromFile(BlockTexture<block_type>::path);
+		//m_sprite.setTexture(m_texture);
+		m_sprite.setTexture(*textures[BlockShapeIndex<block_type>::value]);
 		m_sprite.setScale(SCALE_FACTOR, SCALE_FACTOR);
 		
 		if constexpr(block_type == BlockType::I) {

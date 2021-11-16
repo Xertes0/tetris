@@ -14,15 +14,16 @@
 class Tetris : public sf::Drawable
 {
 private:
+	TexturePtrArray m_stextures;
+	TexturePtrArray m_textures;
+
 	TetrisField m_field;
 	BlockGenerator m_block_gen;
 	unsigned int m_timer;
 	float m_timer_end;
 	bool m_is_falling;
 	std::optional<std::unique_ptr<Block>> m_block;
-	std::vector<std::shared_ptr<sf::Texture>> m_stextures;
 
-	void load_static_textures();
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 public:
