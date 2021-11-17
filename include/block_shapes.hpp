@@ -9,6 +9,8 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 
+#include "input_handler.hpp"
+
 #include "block_types.hpp"
 #include "block_textures.hpp"
 #include "block_data.hpp"
@@ -69,7 +71,7 @@ private:
 	};
 
 	virtual void
-	update(Field const & field, bool tick) override
+	update(InputHandler const & input_handler, Field const & field, bool tick) override
 	{
 		auto const check_fallen = [&]() -> bool {
 			// Block check
@@ -115,7 +117,7 @@ private:
 			throw std::runtime_error{"can_move wtf"};
 		};
 
-		base_update(tick, check_fallen, can_move);
+		base_update(input_handler, tick, check_fallen, can_move);
 		if constexpr(
 				block_type == BlockType::I ||
 				block_type == BlockType::S ||

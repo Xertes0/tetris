@@ -88,20 +88,20 @@ Tetris::Tetris() :
 	m_block{} {}
 
 void
-Tetris::update()
+Tetris::update(InputHandler const & input_handler)
 {
 	if(m_timer++ >= m_timer_end) {
 		if(!m_is_falling) {
 			m_block = m_block_gen();
 			m_is_falling = true;
 		} else {
-			m_block.value()->update(m_field, true);
+			m_block.value()->update(input_handler, m_field, true);
 		}
 
 		m_timer = 0;
 	} else {
 		if(m_block.has_value())
-			m_block.value()->update(m_field, false);
+			m_block.value()->update(input_handler, m_field, false);
 	}
 
 	if(m_block.has_value()) {

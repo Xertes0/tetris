@@ -8,6 +8,8 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Keyboard.hpp>
 
+#include "input_handler.hpp"
+
 #include "field.hpp"
 
 constexpr size_t const BLOCK_COUNT = 7;
@@ -31,7 +33,10 @@ public:
 	rotate();
 
 	virtual void
-	update(Field const &field, bool tick) = 0;
+	update(
+		InputHandler const & input_handler,
+		Field const &field,
+		bool tick) = 0;
 
 	virtual auto
 	get_block_array() const -> std::array<std::tuple<int,int>, 4> = 0;
@@ -46,26 +51,27 @@ protected:
 	template<typename CheckFallen, typename CheckMovement>
 	void
 	base_update(
+		InputHandler const & input_handler,
 		bool const tick,
 		CheckFallen   const & check_fallen,
 		CheckMovement const & can_move
 	) {
 		bool down_pressed = false;
-		if( sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&
+		if( input_handler.pressed_once(sf::Keyboard::Up) &&
 			can_move(Move::Rotate))
 		{
 			rotate();
 		}
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+		if(input_handler.pressed(sf::Keyboard::Down)) {
 			m_position += {0.f, FIELD_SIZE};
 			down_pressed = true;
 		}
-		if( sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
+		if( input_handler.pressed_once(sf::Keyboard::Right) &&
 			can_move(Move::Right))
 		{
 			m_position += {FIELD_SIZE, 0.f};
 		}
-		if( sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && 
+		if( input_handler.pressed_once(sf::Keyboard::Left) && 
 			can_move(Move::Left))
 		{
 			m_position += {-FIELD_SIZE, 0.f};

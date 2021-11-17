@@ -9,6 +9,8 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 
+#include "input_handler.hpp"
+
 #include "field.hpp"
 #include "block.hpp"
 #include "block_generator.hpp"
@@ -35,7 +37,7 @@ public:
 	Tetris();
 
 	void
-	update();
+	update(InputHandler const & input_handler);
 };
 
 #endif // TETRIS_HPP

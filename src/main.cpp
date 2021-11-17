@@ -3,6 +3,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
+#include "input_handler.hpp"
 #include "tetris.hpp"
 
 constexpr unsigned int const WIDTH  = 600; 
@@ -23,18 +24,22 @@ main() -> int
 	sf::RenderWindow window(sf::VideoMode(WIDTH,HEIGHT), "Tetris");
 	center_window(window);
 	window.setFramerateLimit(16);
+	window.setKeyRepeatEnabled(true);
 
-	Tetris tetris;
+	InputHandler input_handler{};
+	Tetris tetris{};
 	while(window.isOpen())
 	{
 		sf::Event event;
 		while(window.pollEvent(event))
 		{
+			//input_handler.process_event(event);
 			if(event.type == sf::Event::Closed)
 				window.close();
 		}
+		input_handler.process_keyboard();
 
-		tetris.update();
+		tetris.update(input_handler);
 
 		window.clear(sf::Color::Black);
 

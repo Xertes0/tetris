@@ -6,7 +6,7 @@
 
 Block::Block() :
 	m_rotation{0},
-	m_position{FIELD_OFFSET_X, FIELD_OFFSET_Y} {}
+	m_position{FIELD_OFFSET_X + (FIELD_SIZE * 4), FIELD_OFFSET_Y} {}
 
 void
 Block::rotate()
