@@ -13,80 +13,69 @@ enum class KeyState : size_t
 	Pressed,
 };
 
-constexpr size_t KEY_COUNT{4};
-
-enum class Action
-{
-	Rotate,
-	Left,
-	Right,
-	Down,
-};
-
-template<Action action>
+template<typename action>
 struct KeyCode;
 
-#define ADD_KEY(NAME, KEY_CODE) \
+template<int n>
+struct ProcessKey
+{
+	static void exec(auto & state);
+};
+
+#define PROCESS_KEY(N, NAME) \
 	template<> \
-	struct KeyCode<NAME>\
-	{ static constexpr auto value {KEY_CODE}; };
+	struct ProcessKey<N> \
+	{ \
+		static void exec(auto & states) \
+		{ \
+			auto & state = states[NAME::index]; \
+			if(sf::Keyboard::isKeyPressed(KeyCode<NAME>::value)) { \
+				if(state == KeyState::Up) { \
+					state = KeyState::PressedOnce; \
+				} else if(state == KeyState::PressedOnce) { \
+					state = KeyState::Pressed; \
+				} \
+			} else { \
+				state = KeyState::Up; \
+			}; \
+			if constexpr(N != 0) { ProcessKey<N-1>::exec(states); } \
+		} \
+	}
 
-#define ACTIONS \
-	Action::Rotate, \
-	Action::Left, \
-	Action::Right, \
-	Action::Down
+#define ADD_KEY(N, NAME, KEY_CODE) \
+	namespace Action { struct NAME { static constexpr size_t index{N};}; }; \
+	template<> \
+	struct KeyCode<Action::NAME> \
+	{ static constexpr auto value {KEY_CODE}; }; \
+	PROCESS_KEY(N, Action::NAME)
 
-ADD_KEY(Action::Rotate, sf::Keyboard::Key::Up);
-ADD_KEY(Action::Left,   sf::Keyboard::Key::Left);
-ADD_KEY(Action::Right,  sf::Keyboard::Key::Right);
-ADD_KEY(Action::Down,   sf::Keyboard::Key::Down);
+constexpr size_t KEY_COUNT{4};
+
+ADD_KEY(0, Rotate, sf::Keyboard::Key::Up);
+ADD_KEY(1, Left,   sf::Keyboard::Key::Left);
+ADD_KEY(2, Right,  sf::Keyboard::Key::Right);
+ADD_KEY(3, Down,   sf::Keyboard::Key::Down);
 
 class InputHandler
 {
 public:
 	InputHandler();
-
-	//void
-	//process_event(sf::Event const & event);
-
-	template<Action action>
-	void
-	process_key(auto & state)
-	{
-		if(sf::Keyboard::isKeyPressed(KeyCode<action>::value)) {
-			if(state == KeyState::Up) {
-				state = KeyState::PressedOnce;
-			} else if(state == KeyState::PressedOnce) {
-				state = KeyState::Pressed;
-			}
-		} else {
-			state = KeyState::Up;
-		};
-	}
-	
-	template<Action... action>
-	void
-	process_key()
-	{
-		((process_key<action>(m_key_states[static_cast<size_t>(action)])), ...);
-	};
 	
 	void
 	process_keyboard();
 
-	template<Action action>
+	template<typename action>
 	auto
 	pressed_once() const -> bool
 	{
-		return m_key_states[static_cast<size_t>(action)] == KeyState::PressedOnce;
+		return m_key_states[action::index] == KeyState::PressedOnce;
 	}
 
-	template<Action action>
+	template<typename action>
 	auto
 	pressed() const -> bool
 	{
-		return m_key_states[static_cast<size_t>(action)] != KeyState::Up;
+		return m_key_states[action::index] != KeyState::Up;
 	}
 
 private:

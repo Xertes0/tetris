@@ -32,5 +32,6 @@ InputHandler::InputHandler() :
 void
 InputHandler::process_keyboard()
 {
-	process_key<ACTIONS>();
+	//process_key<ACTIONS>();
+	ProcessKey<KEY_COUNT-1>::exec(m_key_states);
 }
