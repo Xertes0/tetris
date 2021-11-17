@@ -24,49 +24,13 @@
 InputHandler::InputHandler() :
 	m_key_states{}
 {
-	for(auto const & key : KEYS) {
-		m_key_states[key] = KeyState::Up;
+	for(auto & state : m_key_states) {
+		state = KeyState::Up;
 	}
 }
 
 void
 InputHandler::process_keyboard()
 {
-	for(auto const & key : KEYS) {
-		if(sf::Keyboard::isKeyPressed(key)) {
-			if(m_key_states[key] == KeyState::Up) {
-				m_key_states[key] = KeyState::PressedOnce;
-			} else if(m_key_states[key] == KeyState::PressedOnce) {
-				m_key_states[key] = KeyState::Pressed;
-			}
-		} else {
-			m_key_states[key] = KeyState::Up;
-		}
-	}
-}
-
-auto
-InputHandler::pressed_once(sf::Keyboard::Key const key) const -> bool
-{
-	auto const found = m_key_states.find(key);
-	if(found != m_key_states.end()) {
-		if(found->second == KeyState::PressedOnce) {
-			return true;
-		}
-	}
-
-	return false;
-}
-
-auto
-InputHandler::pressed(sf::Keyboard::Key const key) const -> bool
-{
-	auto const found = m_key_states.find(key);
-	if(found != m_key_states.end()) {
-		if(found->second != KeyState::Up) {
-			return true;
-		}
-	}
-
-	return false;
+	process_key<ACTIONS>();
 }

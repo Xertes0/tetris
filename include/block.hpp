@@ -57,21 +57,21 @@ protected:
 		CheckMovement const & can_move
 	) {
 		bool down_pressed = false;
-		if( input_handler.pressed_once(sf::Keyboard::Up) &&
+		if( input_handler.pressed_once<Action::Rotate>() &&
 			can_move(Move::Rotate))
 		{
 			rotate();
 		}
-		if(input_handler.pressed(sf::Keyboard::Down)) {
+		if(input_handler.pressed<Action::Down>()) {
 			m_position += {0.f, FIELD_SIZE};
 			down_pressed = true;
 		}
-		if( input_handler.pressed_once(sf::Keyboard::Right) &&
+		if( input_handler.pressed_once<Action::Right>() &&
 			can_move(Move::Right))
 		{
 			m_position += {FIELD_SIZE, 0.f};
 		}
-		if( input_handler.pressed_once(sf::Keyboard::Left) && 
+		if( input_handler.pressed_once<Action::Left>() && 
 			can_move(Move::Left))
 		{
 			m_position += {-FIELD_SIZE, 0.f};
