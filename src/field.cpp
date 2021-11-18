@@ -11,15 +11,30 @@ Field::Field() :
 {
 	static sf::Vector2f const offset{FIELD_OFFSET_X, FIELD_OFFSET_Y};
 	m_lines = sf::VertexArray(sf::Lines);
-	for(auto x=0;x<FIELD_X_COUNT+1;x++)
-	{
-		m_lines.append(sf::Vertex(sf::Vector2f{FIELD_SIZE * x, 0.f} + offset));
-		m_lines.append(sf::Vertex(sf::Vector2f{FIELD_SIZE * x, FIELD_HEIGHT} + offset));
-	}
-	for(auto y=0;y<FIELD_Y_COUNT+1;y++)
-	{
-		m_lines.append(sf::Vertex(sf::Vector2f{0.f,         FIELD_SIZE * y} + offset));
-		m_lines.append(sf::Vertex(sf::Vector2f{FIELD_WIDTH, FIELD_SIZE * y} + offset));
+
+	if constexpr(DRAW_GRID) {
+		for(auto x=0;x<FIELD_X_COUNT+1;x++)
+		{
+			m_lines.append(sf::Vertex(sf::Vector2f{FIELD_SIZE * x, 0.f} + offset));
+			m_lines.append(sf::Vertex(sf::Vector2f{FIELD_SIZE * x, FIELD_HEIGHT} + offset));
+		}
+		for(auto y=0;y<FIELD_Y_COUNT+1;y++)
+		{
+			m_lines.append(sf::Vertex(sf::Vector2f{0.f,         FIELD_SIZE * y} + offset));
+			m_lines.append(sf::Vertex(sf::Vector2f{FIELD_WIDTH, FIELD_SIZE * y} + offset));
+		}
+	} else {
+		m_lines.append(sf::Vertex(sf::Vector2f{0.f,         0.f}          + offset));
+		m_lines.append(sf::Vertex(sf::Vector2f{FIELD_WIDTH, 0.f}          + offset));
+
+		m_lines.append(sf::Vertex(sf::Vector2f{0.f,         0.f}          + offset));
+		m_lines.append(sf::Vertex(sf::Vector2f{0.f,         FIELD_HEIGHT} + offset));
+
+		m_lines.append(sf::Vertex(sf::Vector2f{0.f,         FIELD_HEIGHT} + offset));
+		m_lines.append(sf::Vertex(sf::Vector2f{FIELD_WIDTH, FIELD_HEIGHT} + offset));
+		
+		m_lines.append(sf::Vertex(sf::Vector2f{FIELD_WIDTH, 0.f}          + offset));
+		m_lines.append(sf::Vertex(sf::Vector2f{FIELD_WIDTH, FIELD_HEIGHT} + offset));
 	}
 };
 

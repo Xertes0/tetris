@@ -2,11 +2,10 @@
 #define INPUT_HANDLER_HPP
 
 #include <array>
-#include <unordered_map>
 
-#include <SFML/Window/Event.hpp>
+#include <SFML/Window/Keyboard.hpp>
 
-enum class KeyState : size_t
+enum class KeyState : std::size_t
 {
 	Up,
 	PressedOnce,
@@ -21,6 +20,8 @@ struct ProcessKey
 {
 	static void exec(auto & state);
 };
+
+#define KEY_NAMESPACE Action
 
 #define PROCESS_KEY(N, NAME) \
 	template<> \
@@ -43,13 +44,13 @@ struct ProcessKey
 	}
 
 #define ADD_KEY(N, NAME, KEY_CODE) \
-	namespace Action { struct NAME { static constexpr size_t index{N};}; }; \
+	namespace KEY_NAMESPACE { struct NAME { static constexpr std::size_t index{N};}; }; \
 	template<> \
-	struct KeyCode<Action::NAME> \
+	struct KeyCode<KEY_NAMESPACE::NAME> \
 	{ static constexpr auto value {KEY_CODE}; }; \
-	PROCESS_KEY(N, Action::NAME)
+	PROCESS_KEY(N, KEY_NAMESPACE::NAME)
 
-constexpr size_t KEY_COUNT{4};
+constexpr std::size_t KEY_COUNT{4};
 
 ADD_KEY(0, Rotate, sf::Keyboard::Key::Up);
 ADD_KEY(1, Left,   sf::Keyboard::Key::Left);
