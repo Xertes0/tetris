@@ -8,7 +8,7 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/VertexArray.hpp>
 
-constexpr bool DRAW_GRID = false;
+constexpr bool DRAW_GRID = true;
 
 constexpr float FIELD_SIZE = 35.f;
 
