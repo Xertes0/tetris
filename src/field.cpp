@@ -39,7 +39,7 @@ Field::Field() :
 };
 
 auto
-Field::check_score() -> int
+Field::destory_lines() -> int
 {
 	auto const check_complete = [&]() -> std::optional<size_t> {
 		for(size_t y=static_blocks[0].size()-1;y>0;y--) {

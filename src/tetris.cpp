@@ -83,14 +83,16 @@ Tetris::Tetris() :
 	m_field{},
 	m_block_gen{m_textures},
 	m_timer{0},
-	m_timer_end{16},
 	m_is_falling(false),
-	m_block{} {}
+	m_block{},
+	m_level{0},
+	m_score{0},
+	m_lines_destroyed{0} {}
 
 void
 Tetris::update(InputHandler const & input_handler)
 {
-	if(m_timer++ >= m_timer_end) {
+	if(m_timer++ >= LEVEL_TIMER[m_level]) {
 		if(!m_is_falling) {
 			m_block = m_block_gen();
 			m_is_falling = true;
@@ -106,6 +108,7 @@ Tetris::update(InputHandler const & input_handler)
 
 	if(m_block.has_value()) {
 		if(m_block.value()->has_fallen) {
+			m_timer = 0;
 			for(auto const &[x,y] : m_block.value()->get_block_array()) {
 				m_field.static_blocks[x][y] =
 					StaticBlock{.texture =
@@ -116,9 +119,29 @@ Tetris::update(InputHandler const & input_handler)
 			m_is_falling = false;
 			m_block.reset();
 
-			m_field.check_score();
+			auto const destoryed = m_field.destory_lines();
+			if(destoryed != 0) {
+				m_lines_destroyed += destoryed;
+				m_level = m_lines_destroyed/10;
+				m_score += get_score(destoryed);
+				fmt::print("ld: {}, lvl: {}, score: {}\n", m_lines_destroyed, m_level, m_score);
+			}
 		}
 	}
+}
+
+auto
+Tetris::get_score(unsigned int destoryed) -> unsigned int
+{
+	auto base = 0;
+	switch(destoryed) {
+		case 1:  base = 40;   break;
+		case 2:  base = 100;  break;
+		case 3:  base = 300;  break;
+		default: base = 1200; break;
+	}
+
+	return base * (m_level + 1);
 }
 
 void

@@ -35,7 +35,7 @@ public:
 	std::array<std::array<std::optional<StaticBlock>, FIELD_Y_COUNT>, FIELD_X_COUNT> static_blocks;
 
 	auto
-	check_score() -> int;
+	destory_lines() -> int;
 	
 private:
 	void

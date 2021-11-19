@@ -23,7 +23,7 @@ main() -> int
 
 	sf::RenderWindow window(sf::VideoMode(WIDTH,HEIGHT), "Tetris");
 	center_window(window);
-	window.setFramerateLimit(16);
+	window.setFramerateLimit(60);
 	window.setKeyRepeatEnabled(true);
 
 	InputHandler input_handler{};
