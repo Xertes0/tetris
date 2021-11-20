@@ -164,7 +164,7 @@ Tetris::draw(sf::RenderTarget &target, [[maybe_unused]] sf::RenderStates states)
 	}
 
 	if(m_block_sbuf != nullptr) {
-		static sf::Sprite swapped{};
+		sf::Sprite swapped{};
 		swapped.setTexture(*m_textures[static_cast<size_t>(m_block_sbuf->type)]);
 		swapped.setScale(sf::Vector2f{SCALE_FACTOR,SCALE_FACTOR});
 		swapped.setPosition(

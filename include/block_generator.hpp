@@ -18,12 +18,13 @@ class BlockGenerator
 {
 private:
 	std::mt19937 m_mt;
-	std::uniform_int_distribution<size_t> m_uid;
+	//std::uniform_int_distribution<size_t> m_uid;
 
 	TexturePtrArray m_textures;
 
 	std::vector<BlockType> m_can_generate;
 	std::vector<BlockType> m_block_queue;
+	BlockType m_last_gen;
 
 	void
 	reset_gen_vector();
