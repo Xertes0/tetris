@@ -6,9 +6,6 @@
 #include "input_handler.hpp"
 #include "tetris.hpp"
 
-constexpr unsigned int const WIDTH  = 600; 
-constexpr unsigned int const HEIGHT = 800;
-
 void
 center_window(sf::Window & window)
 {

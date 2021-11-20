@@ -50,12 +50,13 @@ struct ProcessKey
 	{ static constexpr auto value {KEY_CODE}; }; \
 	PROCESS_KEY(N, KEY_NAMESPACE::NAME)
 
-constexpr std::size_t KEY_COUNT{4};
+constexpr std::size_t KEY_COUNT{5};
 
 ADD_KEY(0, Rotate, sf::Keyboard::Key::Up);
 ADD_KEY(1, Left,   sf::Keyboard::Key::Left);
 ADD_KEY(2, Right,  sf::Keyboard::Key::Right);
 ADD_KEY(3, Down,   sf::Keyboard::Key::Down);
+ADD_KEY(4, Swap,   sf::Keyboard::Key::C);
 
 class InputHandler
 {

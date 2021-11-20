@@ -17,7 +17,7 @@
 
 #include <fmt/printf.h>
 
-using TexturePtrArray = std::array<std::shared_ptr<sf::Texture>, BLOCK_COUNT>;
+using TexturePtrArray = std::array<std::shared_ptr<sf::Texture>, BLOCK_TYPE_COUNT>;
 
 template<BlockType block_type>
 class BlockShape : public Block
@@ -25,6 +25,7 @@ class BlockShape : public Block
 public:
 	BlockShape(TexturePtrArray const & textures)
 	{
+		type = block_type;
 		texture_index = BlockShapeIndex<block_type>::value;
 		m_rotation = 0;
 
@@ -33,6 +34,13 @@ public:
 		m_sprite.setTexture(*textures[BlockShapeIndex<block_type>::value]);
 		m_sprite.setScale(SCALE_FACTOR, SCALE_FACTOR);
 		
+		reset();
+	};
+
+	virtual void
+	reset() override
+	{
+		m_position = sf::Vector2f{START_POSITION_X, START_POSITION_Y};
 		if constexpr(block_type == BlockType::I) {
 			m_sprite.setOrigin(sf::Vector2f{
 				m_sprite.getLocalBounds().width/2,
@@ -61,7 +69,7 @@ public:
 		}
 
 		m_sprite.setPosition(m_position);
-	};
+	}
 
 private:
 	virtual void

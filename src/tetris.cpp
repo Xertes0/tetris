@@ -85,35 +85,49 @@ Tetris::Tetris() :
 	m_level{},
 	m_timer{0},
 	m_is_falling(false),
-	m_block{} {}
+	m_swaped{false},
+	m_block{},
+	m_block_sbuf{} {}
 
 void
 Tetris::update(InputHandler const & input_handler)
 {
+	if(input_handler.pressed_once<Action::Swap>()) {
+		if(m_block != nullptr && !m_swaped) {
+			if(m_block_sbuf == nullptr) {
+				m_block_sbuf = m_block_gen();
+			}
+			m_block.swap(m_block_sbuf);
+			m_block->reset();
+			m_swaped = true;
+		}
+	}
+
 	if(m_timer++ >= m_level.get_tick_time()) {
 		if(!m_is_falling) {
 			m_block = m_block_gen();
-			if(m_block.value()->is_illegal(m_field)) {
+			if(m_block->is_illegal(m_field)) {
 				fmt::print("Loser\n");
 			}
 			m_is_falling = true;
 		} else {
-			m_block.value()->update(input_handler, m_field, true);
+			m_block->update(input_handler, m_field, true);
 		}
 
 		m_timer = 0;
 	} else {
-		if(m_block.has_value())
-			m_block.value()->update(input_handler, m_field, false);
+		if(m_block != nullptr)
+			m_block->update(input_handler, m_field, false);
 	}
 
-	if(m_block.has_value()) {
-		if(m_block.value()->has_fallen) {
+	if(m_block != nullptr) {
+		if(m_block->has_fallen) {
 			m_timer = 0;
-			for(auto const &[x,y] : m_block.value()->get_block_array()) {
+			m_swaped = false;
+			for(auto const &[x,y] : m_block->get_block_array()) {
 				m_field.static_blocks[x][y] =
 					StaticBlock{.texture =
-						m_stextures[m_block.value()->texture_index]};
+						m_stextures[m_block->texture_index]};
 
 				//fmt::print("sblock x: {}, y: {}\n", x,y);
 			}
@@ -129,8 +143,8 @@ Tetris::update(InputHandler const & input_handler)
 void
 Tetris::draw(sf::RenderTarget &target, [[maybe_unused]] sf::RenderStates states) const
 {
-	if(m_block.has_value())
-		target.draw(**m_block);
+	if(m_block != nullptr)
+		target.draw(*m_block);
 
 	target.draw(m_field);
 
@@ -147,5 +161,16 @@ Tetris::draw(sf::RenderTarget &target, [[maybe_unused]] sf::RenderStates states)
 		target.draw(sprite);
 
 		index--;
+	}
+
+	if(m_block_sbuf != nullptr) {
+		static sf::Sprite swapped{};
+		swapped.setTexture(*m_textures[static_cast<size_t>(m_block_sbuf->type)]);
+		swapped.setScale(sf::Vector2f{SCALE_FACTOR,SCALE_FACTOR});
+		swapped.setPosition(
+			450.f,
+			static_cast<float>(HEIGHT) - 175.f
+		);
+		target.draw(swapped);
 	}
 }

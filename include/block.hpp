@@ -9,10 +9,11 @@
 #include <SFML/Window/Keyboard.hpp>
 
 #include "input_handler.hpp"
-
 #include "field.hpp"
+#include "block_types.hpp"
 
-constexpr size_t const BLOCK_COUNT = 7;
+constexpr float START_POSITION_X {FIELD_OFFSET_X + (FIELD_SIZE * 4)};
+constexpr float START_POSITION_Y {FIELD_OFFSET_Y};
 
 enum class Move
 {
@@ -25,6 +26,7 @@ class Block : public sf::Drawable
 {
 public:
 	Block();
+	BlockType type;
 
 	bool   has_fallen {false};
 	size_t texture_index;
@@ -40,6 +42,9 @@ public:
 		InputHandler const & input_handler,
 		Field const &field,
 		bool tick) = 0;
+
+	virtual void
+	reset() = 0;
 
 	virtual auto
 	get_block_array() const -> std::array<std::tuple<int,int>, 4> = 0;

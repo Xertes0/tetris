@@ -12,7 +12,7 @@
 
 constexpr size_t QUEUE_SIZE{3};
 
-using TexturePtrArray = std::array<std::shared_ptr<sf::Texture>, BLOCK_COUNT>;
+using TexturePtrArray = std::array<std::shared_ptr<sf::Texture>, BLOCK_TYPE_COUNT>;
 
 class BlockGenerator
 {

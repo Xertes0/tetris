@@ -2,7 +2,6 @@
 #define TETRIS_HPP
 
 #include <memory>
-#include <optional>
 #include <vector>
 
 #include <SFML/Graphics/Drawable.hpp>
@@ -17,6 +16,9 @@
 
 #include "level.hpp"
 
+constexpr unsigned int const WIDTH  = 600; 
+constexpr unsigned int const HEIGHT = 800;
+
 class Tetris : public sf::Drawable
 {
 private:
@@ -30,7 +32,9 @@ private:
 	unsigned int m_timer;
 
 	bool m_is_falling;
-	std::optional<std::unique_ptr<Block>> m_block;
+	bool m_swaped;
+	std::unique_ptr<Block> m_block;
+	std::unique_ptr<Block> m_block_sbuf;
 
 	virtual void
 	draw(sf::RenderTarget &target, sf::RenderStates states) const;
