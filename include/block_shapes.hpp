@@ -80,8 +80,9 @@ private:
 				if(y == FIELD_Y_COUNT-1)
 					continue;
 				
-				if(field.static_blocks[x][y+1].has_value())
+				if(field.static_blocks[x][y+1].has_value()) {
 					return true;
+				}
 			}
 
 			// Ground check
@@ -97,18 +98,22 @@ private:
 			switch(move_type) {
 				case Move::Left:
 					for(auto const &[x,y] : get_block_array()) {
-						if(x == 0)
+						if(x == 0) {
 							return false;
-						if(field.static_blocks[x-1][y].has_value())
+						}
+						if(field.static_blocks[x-1][y].has_value()) {
 							return false;
+						}
 					}
 					return true;
 				case Move::Right:
 					for(auto const &[x,y] : get_block_array()) {
-						if(x == FIELD_X_COUNT-1)
+						if(x == FIELD_X_COUNT-1) {
 							return false;
-						if(field.static_blocks[x+1][y].has_value())
+						}
+						if(field.static_blocks[x+1][y].has_value()) {
 							return false;
+						}
 					}
 					return true;
 				case Move::Rotate:
