@@ -32,6 +32,9 @@ public:
 	void
 	rotate();
 
+	void
+	c_rotate();
+
 	virtual void
 	update(
 		InputHandler const & input_handler,
@@ -40,6 +43,9 @@ public:
 
 	virtual auto
 	get_block_array() const -> std::array<std::tuple<int,int>, 4> = 0;
+
+	[[nodiscard]] auto
+	is_illegal(Field const & field) -> bool;
 
 protected:
 	int m_rotation;

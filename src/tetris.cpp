@@ -93,6 +93,9 @@ Tetris::update(InputHandler const & input_handler)
 	if(m_timer++ >= m_level.get_tick_time()) {
 		if(!m_is_falling) {
 			m_block = m_block_gen();
+			if(m_block.value()->is_illegal(m_field)) {
+				fmt::print("Loser\n");
+			}
 			m_is_falling = true;
 		} else {
 			m_block.value()->update(input_handler, m_field, true);
@@ -130,4 +133,19 @@ Tetris::draw(sf::RenderTarget &target, [[maybe_unused]] sf::RenderStates states)
 		target.draw(**m_block);
 
 	target.draw(m_field);
+
+	auto const queue = m_block_gen.get_queue();
+
+	for(int index=QUEUE_SIZE-1; auto const & block : queue) {
+		sf::Sprite sprite{};
+		sprite.setScale(sf::Vector2f{SCALE_FACTOR,SCALE_FACTOR});
+		sprite.setPosition(
+			450.f,
+			FIELD_OFFSET_Y + 50.f + 100.f*index
+		);
+		sprite.setTexture(*m_textures[static_cast<size_t>(block)]);
+		target.draw(sprite);
+
+		index--;
+	}
 }

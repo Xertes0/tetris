@@ -117,6 +117,12 @@ private:
 					}
 					return true;
 				case Move::Rotate:
+					rotate();
+					if(is_illegal(field)) {
+						c_rotate();
+						return false;
+					}
+					c_rotate();
 					return true;
 			};
 			throw std::runtime_error{"can_move wtf"};

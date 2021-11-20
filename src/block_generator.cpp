@@ -1,5 +1,6 @@
 #include "block_generator.hpp"
 
+#include <algorithm>
 #include <stdexcept>
 
 #include "block_types.hpp"
@@ -11,12 +12,16 @@ BlockGenerator::BlockGenerator(TexturePtrArray const textures) :
 	m_mt{std::random_device{}()},
 	m_uid{0,(BLOCK_TYPE_COUNT*BAG_COUNT)-1},
 	m_textures{textures},
-	m_can_generate(BLOCK_TYPE_COUNT*BAG_COUNT)
+	m_can_generate(BLOCK_TYPE_COUNT*BAG_COUNT),
+	m_block_queue(QUEUE_SIZE)
 {
 	reset_gen_vector();
+	for(size_t i=0;i<QUEUE_SIZE;i++) {
+		m_block_queue[i] = generate_enum();
+	}
 }
 
-auto
+[[nodiscard]] auto
 BlockGenerator::block_from_enum(BlockType const type) -> std::unique_ptr<Block>
 {
 	switch(type)
@@ -36,15 +41,31 @@ BlockGenerator::block_from_enum(BlockType const type) -> std::unique_ptr<Block>
 auto
 BlockGenerator::operator()() -> std::unique_ptr<Block>
 {
+	auto to_return = block_from_enum(m_block_queue.back());
+	fill_queue();
+
+	return to_return;
+}
+
+auto
+BlockGenerator::generate_enum() -> BlockType
+{
 	if(m_can_generate.empty())
 		reset_gen_vector();
 
 	auto const index = m_uid(m_mt)%m_can_generate.size();
-	auto to_return = block_from_enum(m_can_generate[index]);
+	auto to_return = m_can_generate[index];
 
 	m_can_generate.erase(std::begin(m_can_generate)+index);
 
 	return to_return;
+}
+
+void
+BlockGenerator::fill_queue()
+{
+	std::rotate(std::rbegin(m_block_queue), std::rbegin(m_block_queue)+1, std::rend(m_block_queue));
+	m_block_queue[0] = generate_enum();
 }
 
 void
@@ -54,4 +75,10 @@ BlockGenerator::reset_gen_vector()
 	for(size_t i=0;i<BAG_COUNT-1;i++) {
 		m_can_generate.insert(std::begin(m_can_generate), std::begin(ALL_BLOCK_TYPES), std::end(ALL_BLOCK_TYPES));
 	}
+}
+
+[[nodiscard]] auto
+BlockGenerator::get_queue() const -> std::vector<BlockType> const &
+{
+	return m_block_queue;
 }
