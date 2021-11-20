@@ -8,6 +8,7 @@
 #include <SFML/Graphics/Texture.hpp>
 
 #include "block.hpp"
+#include "block_types.hpp"
 
 using TexturePtrArray = std::array<std::shared_ptr<sf::Texture>, BLOCK_COUNT>;
 
@@ -18,6 +19,14 @@ private:
 	std::uniform_int_distribution<size_t> m_uid;
 
 	TexturePtrArray m_textures;
+
+	std::vector<BlockType> m_can_generate;
+
+	void
+	reset_gen_vector();
+
+	auto
+	block_from_enum(BlockType type) -> std::unique_ptr<Block>;
 
 public:
 	BlockGenerator(TexturePtrArray const textures);

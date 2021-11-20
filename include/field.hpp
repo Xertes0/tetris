@@ -26,13 +26,15 @@ struct StaticBlock
 	std::shared_ptr<sf::Texture> texture;
 };
 
+using StaticBlockArray = std::array<std::array<std::optional<StaticBlock>, FIELD_Y_COUNT>, FIELD_X_COUNT>;
+
 class Field : public sf::Drawable
 {
 	sf::VertexArray m_lines;
 
 public:
 	Field();
-	std::array<std::array<std::optional<StaticBlock>, FIELD_Y_COUNT>, FIELD_X_COUNT> static_blocks;
+	StaticBlockArray static_blocks;
 
 	auto
 	destory_lines() -> int;

@@ -325,7 +325,7 @@ struct BlockGrundCheckOffset<BlockType::O>
 template<>
 struct BlockGrundCheckOffset<BlockType::T>
 {
-	static constexpr std::array value {-1,-1,-1,-1};
+	static constexpr std::array value {-1,-2,-1,-2};
 };
 
 template<>
