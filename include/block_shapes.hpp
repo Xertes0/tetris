@@ -162,14 +162,11 @@ private:
 			(m_position.y-FIELD_OFFSET_Y)/FIELD_SIZE + BlockArrayRootOffsets<block_type>::y
 		};
 
-		//fmt::print("root x: {}\n", root.x);
-		//fmt::print("root y: {}\n", root.y);
-
 		for(auto &[x,y] : to_return) {
 			x += root.x;
 			y += root.y;
 
-			if(x>=FIELD_X_COUNT)
+			if(x>=static_cast<int>(FIELD_X_COUNT))
 				x = 0;
 			if(y>=FIELD_Y_COUNT)
 				y = 0;
