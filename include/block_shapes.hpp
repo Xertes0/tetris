@@ -69,6 +69,7 @@ public:
 		}
 
 		m_sprite.setPosition(m_position);
+		m_sprite.setRotation(0.f);
 	}
 
 private:
