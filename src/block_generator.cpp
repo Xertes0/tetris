@@ -6,7 +6,7 @@
 #include "block_types.hpp"
 #include "block_shapes.hpp"
 
-constexpr size_t BAG_COUNT{3};
+constexpr size_t BAG_COUNT{2};
 
 BlockGenerator::BlockGenerator(TexturePtrArray const textures) :
 	m_mt{std::random_device{}()},

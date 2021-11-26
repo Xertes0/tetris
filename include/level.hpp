@@ -41,9 +41,9 @@ constexpr unsigned int MAX_LEVEL {29};
 class Level
 {
 private:
-	unsigned int m_level;
-	unsigned int m_score;
-	unsigned int m_lines_destroyed;
+	unsigned int m_level{0};
+	unsigned int m_score{0};
+	unsigned int m_lines_destroyed{0};
 
 	[[nodiscard]] constexpr auto
 	calc_score(unsigned int destoryed) -> unsigned int;
