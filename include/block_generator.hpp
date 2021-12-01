@@ -18,7 +18,7 @@ class BlockGenerator
 {
 private:
 	std::mt19937 m_mt;
-	//std::uniform_int_distribution<size_t> m_uid;
+	std::uniform_int_distribution<size_t> m_uid;
 
 	TexturePtrArray m_textures;
 

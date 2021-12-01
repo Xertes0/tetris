@@ -9,13 +9,17 @@
 constexpr size_t BAG_COUNT{2};
 
 BlockGenerator::BlockGenerator(TexturePtrArray const textures) :
-	m_mt{std::random_device{}()},
+	//m_mt{std::random_device{}()},
 	//m_uid{0,(BLOCK_TYPE_COUNT*BAG_COUNT)-1},
+	m_uid{},
 	m_textures{textures},
 	m_can_generate(BLOCK_TYPE_COUNT*BAG_COUNT),
 	m_block_queue(QUEUE_SIZE),
 	m_last_gen{}
 {
+	std::random_device rd{};
+	std::seed_seq seq{rd(),rd(),rd(),rd()};
+	m_mt = std::mt19937{seq};
 	reset_gen_vector();
 	for(size_t i=0;i<QUEUE_SIZE;i++) {
 		m_block_queue[i] = generate_enum();
@@ -54,7 +58,7 @@ BlockGenerator::generate_enum() -> BlockType
 	if(m_can_generate.empty())
 		reset_gen_vector();
 
-	auto rand  = m_mt();
+	auto rand  = m_uid(m_mt);
 	auto index = rand%m_can_generate.size();
 	//fmt::print("rand: {}, index: {}\n", rand, index);
 	auto to_return = m_can_generate[index];
